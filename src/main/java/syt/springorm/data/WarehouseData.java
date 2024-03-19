@@ -1,4 +1,4 @@
-package tradearea.model;
+package syt.springorm.data;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

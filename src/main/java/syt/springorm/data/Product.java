@@ -1,4 +1,4 @@
-package tradearea.model;
+package syt.springorm.data;
 
 public class Product {
     private String productID;
