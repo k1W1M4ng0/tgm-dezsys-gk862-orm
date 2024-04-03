@@ -4,30 +4,40 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+
+@Entity
 public class WarehouseData {
 	
     private String warehouseApplicationID;
-	private String warehouseID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer warehouseID;
 	private String warehouseName;
 	private String warehouseAddress;
 	private String warehousePostalCode;
 	private String warehouseCity;
 	private String warehouseCountry;
 	private String timestamp;
-	private ArrayList<Product> productData;
+
+    @ManyToMany
+	private Product productData;
 
 	/**
 	 * Constructor
 	 */
 	public WarehouseData() {
-		this.productData = new ArrayList<>();
 		this.timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
 	}
 	
 	/**
 	 * Setter and Getter Methods
 	 */
-	public String getWarehouseID() {
+	public Integer getWarehouseID() {
 		return warehouseID;
 	}
 
@@ -43,7 +53,7 @@ public class WarehouseData {
         this.productData = productData;
     }
 
-    public void setWarehouseID(String warehouseID) {
+    public void setWarehouseID(Integer warehouseID) {
 		this.warehouseID = warehouseID;
 	}
 
@@ -119,16 +129,6 @@ public class WarehouseData {
 		this.timestamp = timestamp;
 	}
 	
-	public void addProduct(Product p) {
-		this.productData.add(p);
-	}
-	
-	/**
-	 * @return the productData
-	 */
-	public ArrayList<Product> getProductData() {
-		return productData;
-	}
 	
 	/**
 	 * Methods
@@ -138,4 +138,12 @@ public class WarehouseData {
 		String info = String.format("Warehouse Info: ID = %s, timestamp = %s", warehouseID, timestamp );
 		return info;
 	}
+
+    public Product getProductData() {
+        return productData;
+    }
+
+    public void setProductData(Product productData) {
+        this.productData = productData;
+    }
 }

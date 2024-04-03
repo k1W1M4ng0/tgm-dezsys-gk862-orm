@@ -1,7 +1,15 @@
 package syt.springorm.data;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Product {
-    private String productID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer productID;
     private String productName;
     private String productCategory;
     private int productQuantity;
@@ -12,14 +20,14 @@ public class Product {
     /**
      * @return the productID
      */
-    public String getProductID() {
+    public Integer getProductID() {
         return productID;
     }
 
     /**
      * @param productID the productID to set
      */
-    public void setProductID(String productID) {
+    public void setProductID(Integer productID) {
         this.productID = productID;
     }
 
