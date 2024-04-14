@@ -1,14 +1,15 @@
 package syt.springorm.data;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class WarehouseData {
@@ -24,8 +25,8 @@ public class WarehouseData {
 	private String warehouseCountry;
 	private String timestamp;
 
-    @ManyToMany
-	private Product productData;
+    @OneToMany(fetch = FetchType.LAZY)
+	private List<Product> productData;
 
 	/**
 	 * Constructor
@@ -49,9 +50,6 @@ public class WarehouseData {
         this.warehouseApplicationID = warehouseApplicationID;
     }
 
-    public void setProductData(ArrayList<Product> productData) {
-        this.productData = productData;
-    }
 
     public void setWarehouseID(Integer warehouseID) {
 		this.warehouseID = warehouseID;
@@ -139,11 +137,12 @@ public class WarehouseData {
 		return info;
 	}
 
-    public Product getProductData() {
+    public List<Product> getProductData() {
         return productData;
     }
 
-    public void setProductData(Product productData) {
+    public void setProductData(List<Product> productData) {
         this.productData = productData;
     }
+
 }
