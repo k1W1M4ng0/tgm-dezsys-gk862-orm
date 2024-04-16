@@ -1,9 +1,12 @@
 package syt.springorm.data;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Product {
@@ -14,6 +17,10 @@ public class Product {
     private String productCategory;
     private int productQuantity;
     private String productUnit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "warehouseID")
+    private WarehouseData warehouse;
     
     // setters and getters
 
@@ -94,5 +101,13 @@ public class Product {
             
         );
         return out;
+    }
+
+    public WarehouseData getWarehouse() {
+        return warehouse;
+    }
+
+    public void setWarehouse(WarehouseData warehouse) {
+        this.warehouse = warehouse;
     }
 }

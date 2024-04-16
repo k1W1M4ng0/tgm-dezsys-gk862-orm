@@ -1,9 +1,11 @@
 package syt.springorm.data;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -23,16 +25,16 @@ public class WarehouseData {
 	private String warehousePostalCode;
 	private String warehouseCity;
 	private String warehouseCountry;
-	private String timestamp;
+	private LocalDateTime timestamp;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Product> productData;
 
 	/**
 	 * Constructor
 	 */
 	public WarehouseData() {
-		this.timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+		this.timestamp = LocalDateTime.now();
 	}
 	
 	/**
@@ -119,13 +121,6 @@ public class WarehouseData {
 		this.warehouseCountry = warehouseCountry;
 	}
 
-	public String getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(String timestamp) {
-		this.timestamp = timestamp;
-	}
 	
 	
 	/**
@@ -143,6 +138,14 @@ public class WarehouseData {
 
     public void setProductData(List<Product> productData) {
         this.productData = productData;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
 }
