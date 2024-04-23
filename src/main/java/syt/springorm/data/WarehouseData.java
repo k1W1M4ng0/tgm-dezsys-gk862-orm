@@ -27,7 +27,7 @@ public class WarehouseData {
 	private String warehouseCountry;
 	private LocalDateTime timestamp;
 
-    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "warehouse", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private List<Product> productData;
 
 	/**

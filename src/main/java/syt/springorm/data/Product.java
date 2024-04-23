@@ -1,5 +1,6 @@
 package syt.springorm.data;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +19,7 @@ public class Product {
     private int productQuantity;
     private String productUnit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "warehouseID")
     private WarehouseData warehouse;
     

@@ -47,20 +47,25 @@ public class MainController {
         return userRepository.findAll();
     }
 
-    @RequestMapping("/warehouse")
-    public @ResponseBody String test() {
+    @RequestMapping("/add/warehouseProduct")
+    public @ResponseBody String addWarehouseProduct() {
         Product p = new Product();
         p.setProductID(1);
         p.setProductName("name2");
         p.setProductUnit("unit3");
         p.setProductQuantity(4);
         p.setProductCategory("cat5");
-        // pRepo.save(p);
 
         WarehouseData d = new WarehouseData();
+
+        p.setWarehouse(d);
         d.setProductData(List.of(p));
-        whRepo.save(d);
-        
+
+        // saving in whrepo is not necessary thanks to cascade type all in Product
+        // whRepo.save(d);
+
+        pRepo.save(p);
+
         return "saved";
     }
 
