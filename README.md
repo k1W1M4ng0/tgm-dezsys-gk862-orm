@@ -189,9 +189,14 @@ I also added an api to add a predefined set of product + warehousedata.
         d.setProductData(List.of(p));
 
         // saving in whrepo is not necessary thanks to cascade type all in Product
+        // also, saving it throws an exception (likely because pRepo.save tries to save this object too)
         // whRepo.save(d);
 
         pRepo.save(p);
+
+        // however, you can save a new one 
+        whRepo.save(new WarehouseData());
+
 
         return "saved";
     }
