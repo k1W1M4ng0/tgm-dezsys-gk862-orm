@@ -1,5 +1,7 @@
 package syt.springorm.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,6 +23,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "warehouseID")
+    @JsonIgnore
     private WarehouseData warehouse;
     
     // setters and getters
