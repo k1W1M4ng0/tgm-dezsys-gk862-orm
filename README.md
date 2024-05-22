@@ -202,6 +202,126 @@ I also added an api to add a predefined set of product + warehousedata.
     }
 ```
 
+## Collecting data
+
+The next task was to implement various ways to collect data, with CrudRepository methods.
+
+
+- Collect all data of one data warehouse specified by datawarehouseID.
+- Collect a single product of a data warehouse specified by datawarehouseID and productID.
+- Update a data warehouse using datawarehouseID.
+
+
+For the first two, i added new request mappings to MainController:
+
+```java
+
+    @RequestMapping("/id/warehouse/{id}")
+    public @ResponseBody WarehouseData getWarehouseById(@PathVariable int id) {
+        return whRepo.findById(id).orElse(null);
+    }
+
+    @RequestMapping("/id/warehouse/{warehouseID}/product/{productID}")
+    public @ResponseBody Product getSingleProductFromWarehouse(@PathVariable int warehouseID, @PathVariable int productID) {
+        return pRepo.findById(productID)
+            .filter(p -> p.getWarehouse().getWarehouseID() == warehouseID)
+            .orElse(null);
+    }
+```
+
+For the third one, i added a new request mapping:  
+
+```java
+
+    @RequestMapping("/update/warehouse/{id}")
+    public @ResponseBody UpdateRequest updateWarehouse(@PathVariable int id, @RequestBody UpdateRequest req) {
+        var newObject = whRepo.findById(id).orElseThrow();
+
+        if(req.warehouseApplicationID.length() > 0) {
+            newObject.setWarehouseApplicationID(req.warehouseApplicationID);
+        }
+        if(req.warehouseName.length() > 0) {
+            newObject.setWarehouseName(req.warehouseName);
+        }
+        if(req.warehouseAddress.length() > 0) {
+            newObject.setWarehouseAddress(req.warehouseAddress);
+        }
+        if(req.warehousePostalCode.length() > 0) {
+            newObject.setWarehousePostalCode(req.warehousePostalCode);
+        }
+        if(req.warehouseCity.length() > 0) {
+            newObject.setWarehouseCity(req.warehouseCity);
+        }
+        if(req.warehouseCountry.length() > 0) {
+            newObject.setWarehouseCountry(req.warehouseCountry);
+        }
+
+        whRepo.save(newObject);
+
+        return req;
+    }
+```
+
+as well as a html site with a form:
+
+```html
+<!-- src: phind.com, asked on 2024-05-21 20:50,
+query: "i have a class, and i want you to write a website including a simple html form, to update each value (excluding the ip). i want to send them via rest with a button (axios) [and then the warehouse data class]"
+i then added an input field for entering server details, and for a warehouseID
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Warehouse Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h2>Update Warehouse Information</h2>
+    <form id="updateForm">
+        <label for="warehouseID">WarehouseID to change:</label><br>
+        <input type="text" id="warehouseID" name="warehouseID" required><br>
+
+        <hr>
+
+        <label for="warehouseApplicationID">Warehouse Application ID:</label><br>
+        <input type="text" id="warehouseApplicationID" name="warehouseApplicationID"><br>
+        <label for="warehouseName">Warehouse Name:</label><br>
+        <input type="text" id="warehouseName" name="warehouseName"><br>
+        <label for="warehouseAddress">Warehouse Address:</label><br>
+        <input type="text" id="warehouseAddress" name="warehouseAddress"><br>
+        <label for="warehousePostalCode">Warehouse Postal Code:</label><br>
+        <input type="text" id="warehousePostalCode" name="warehousePostalCode"><br>
+        <label for="warehouseCity">Warehouse City:</label><br>
+        <input type="text" id="warehouseCity" name="warehouseCity"><br>
+        <label for="warehouseCountry">Warehouse Country:</label><br>
+        <input type="text" id="warehouseCountry" name="warehouseCountry"><br>
+
+        <hr>
+
+        <input type="text" id="server" name="server"><br>
+        <label for="server">Server (ip + port)</label><br>
+
+        <hr>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            const formData = new FormData(this);
+
+            axios.post('http://' + formData.get('server') + '/update/warehouse/' + formData.get('warehouseID'), Object.fromEntries(formData))
+               .then(response => console.log(response.data))
+               .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>
+```
+
 ## Sources
 
 - [Spring Boot "Accessing Data with MySQL" tutorial](https://spring.io/guides/gs/accessing-data-mysql)
