@@ -322,7 +322,45 @@ i then added an input field for entering server details, and for a warehouseID
 </html>
 ```
 
+## Switching to PostgreSQL
+
+For switching to a postgresql dbms, i had to change `src/main/resources/application.properties`:
+
+```diff
+-spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_example
+-spring.datasource.username=springuser
+-spring.datasource.password=password
+-spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
++spring.datasource.url=jdbc:postgresql://localhost:5432/db_example
++spring.datasource.username=postgres
++spring.datasource.password=Pass2023!
++spring.datasource.driver-class-name=org.postgresql.Driver
+```
+
+Then I added the driver as a dependency in `pom.xml`:
+
+```xml
+<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+<dependency>
+    <groupId>org.postgresql</groupId>
+    <artifactId>postgresql</artifactId>
+    <version>42.7.3</version>
+</dependency>
+```
+
+I also had to create the database:
+
+```bash
+docker exec -it postgres bash
+su postgres
+psql 
+
+# sql
+CREATE DATABASE db_example;
+```
+
 ## Sources
 
 - [Spring Boot "Accessing Data with MySQL" tutorial](https://spring.io/guides/gs/accessing-data-mysql)
-
+- [API documentation for Spring CrudRepository](https://docs.spring.io/spring-data/commons/docs/current/api/org/springframework/data/repository/CrudRepository.html)
+- [PostgreSQL driver](https://mvnrepository.com/artifact/org.postgresql/postgresql/42.7.3)
