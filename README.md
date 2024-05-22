@@ -2,6 +2,37 @@
 
 ## Questions
 
+    What is ORM and how is JPA used?
+    What is the application.properties used for and where must it be stored?
+    Which annotations are frequently used for entity types? Which key points must be observed?
+    What methods do you need for CRUD operations?
+
+ORM stands for Object Relational Mapping, and the JPA is used to use ORM in java.
+It supports annotations (such as @Entity), that tell the driver how to map a class to a table.
+
+The application.properties file is generally used as config file for spring, and it can also be used
+to store database credentials and its address. It is stored in src/main/resources
+
+Frequently used annotations are:  
+- Id
+- GeneratedValue
+- ManyToOne
+    Also OneToMany, OneToOne, etc.
+- JoinColumn
+
+You can use the methods found in the CrudRepository interface for CRUD operations. They are:  
+- count
+- delete
+- deleteById
+- deleteAll
+- deleteAllById
+- existsById
+- findAll
+- findAllById
+- findById
+- save
+- saveAll
+
 ## Spring Data with MySQL
 
 I created this project with the Spring Initializr with the dependencies: 
