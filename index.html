@@ -1,0 +1,56 @@
+<!-- src: phind.com, asked on 2024-05-21 20:50,
+query: "i have a class, and i want you to write a website including a simple html form, to update each value (excluding the ip). i want to send them via rest with a button (axios) [and then the warehouse data class]"
+i then added an input field for entering server details, and for a warehouseID
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Warehouse Data</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h2>Update Warehouse Information</h2>
+    <form id="updateForm">
+        <label for="warehouseID">WarehouseID to change:</label><br>
+        <input type="text" id="warehouseID" name="warehouseID" required><br>
+
+        <hr>
+
+        <label for="warehouseApplicationID">Warehouse Application ID:</label><br>
+        <input type="text" id="warehouseApplicationID" name="warehouseApplicationID"><br>
+        <label for="warehouseName">Warehouse Name:</label><br>
+        <input type="text" id="warehouseName" name="warehouseName"><br>
+        <label for="warehouseAddress">Warehouse Address:</label><br>
+        <input type="text" id="warehouseAddress" name="warehouseAddress"><br>
+        <label for="warehousePostalCode">Warehouse Postal Code:</label><br>
+        <input type="text" id="warehousePostalCode" name="warehousePostalCode"><br>
+        <label for="warehouseCity">Warehouse City:</label><br>
+        <input type="text" id="warehouseCity" name="warehouseCity"><br>
+        <label for="warehouseCountry">Warehouse Country:</label><br>
+        <input type="text" id="warehouseCountry" name="warehouseCountry"><br>
+
+        <hr>
+
+        <input type="text" id="server" name="server"><br>
+        <label for="server">Server (ip + port)</label><br>
+
+        <hr>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('updateForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+            const formData = new FormData(this);
+
+            axios.post('http://' + formData.get('server') + '/update/warehouse/' + formData.get('warehouseID'), Object.fromEntries(formData))
+               .then(response => console.log(response.data))
+               .catch(error => console.error(error));
+        });
+    </script>
+</body>
+</html>
+
